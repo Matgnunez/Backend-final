@@ -1,5 +1,5 @@
 class CustomError {
-    constructor(message, status){
+    constructor(message, status) {
         this.message = message
         this.status = status
     }
@@ -10,4 +10,4 @@ const ERRORS = {
 }
 
 
-module.exports = {CustomError}
+module.exports = { CustomError }

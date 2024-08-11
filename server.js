@@ -1,12 +1,12 @@
 const express = require('express')
-const dotenv = require('dotenv')
 const cors = require('cors')
+const dotenv = require('dotenv')
 dotenv.config()
 
 const { authRouter } = require('./auth/auth.router')
 const { productRouter } = require('./products/products.router')
 
-const {conectionMongoose} = require('./config/connection.mongodb')
+const { conectionMongoose } = require('./config/connection.mongodb')
 
 
 
@@ -21,9 +21,9 @@ app.use('/api/auth', authRouter)
 app.use('/api/products', productRouter)
 
 
-/* TODO: verificar API-KEY */
 
-app.listen(PORT, () =>{
+
+app.listen(PORT, () => {
     console.log('Nuestra aplicacion se ejecuta en el puerto: ' + PORT)
 })
 

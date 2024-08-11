@@ -10,7 +10,7 @@ const VALIDACIONES_PRODUCTO = {
     },
     'titulo': {
         validacion: (valor) => {
-            return Boolean(valor) && (typeof(valor) === 'string') && valor.length > 3 
+            return Boolean(valor) && (typeof (valor) === 'string') && valor.length > 3
         },
         errorText: 'Titulo debe ser un valor verdadero con una longitud mayor a 3 caracteres'
     },
@@ -22,13 +22,13 @@ const VALIDACIONES_PRODUCTO = {
     },
     'descripcion': {
         validacion: (valor) => {
-            return (Boolean(valor) && isNaN(valor) && valor.length > 20 && typeof(valor) === 'string')
+            return (Boolean(valor) && isNaN(valor) && valor.length > 20 && typeof (valor) === 'string')
         },
         errorText: 'El la descripcion debe ser un string de mas de 20 caracteres'
     },
     'codigo': {
         validacion: (valor) => {
-            return (Boolean(valor)  && valor.length > 3)
+            return (Boolean(valor) && valor.length > 3)
         },
         errorText: 'El codigo debe ser un string de mas de 3 caracteres'
     }
@@ -37,7 +37,7 @@ const VALIDACIONES_PRODUCTO = {
 
 
 const validarPropiedadesProducto = (producto) => {
-    try{
+    try {
         const propiedades_producto = Object.keys(producto)
         const propiedades_faltantes = []
         const propiedades_sobrantes = []
@@ -57,15 +57,15 @@ const validarPropiedadesProducto = (producto) => {
         if (propiedades_sobrantes.length > 0) {
             throw { status: 400, message: 'Sobran las propiedades [' + propiedades_sobrantes.join(', ') + ']' }
         }
-        for(let propiedad in VALIDACIONES_PRODUCTO){
+        for (let propiedad in VALIDACIONES_PRODUCTO) {
             let valor = producto[propiedad]
-            if(!VALIDACIONES_PRODUCTO[propiedad].validacion(valor)){
-                throw {status: 400, message: VALIDACIONES_PRODUCTO[propiedad].errorText}
+            if (!VALIDACIONES_PRODUCTO[propiedad].validacion(valor)) {
+                throw { status: 400, message: VALIDACIONES_PRODUCTO[propiedad].errorText }
             }
         }
         return true
     }
-    catch(error){
+    catch (error) {
         throw error
     }
 }

@@ -1,8 +1,8 @@
 
-const {conectionMongoose} = require('../config/connection.mongodb')
+const { conectionMongoose } = require('../config/connection.mongodb')
 const mongoose = require('mongoose')
 const productSchema = new mongoose.Schema({
-    titulo:{
+    titulo: {
         type: String,
         required: true
     },
@@ -25,74 +25,85 @@ const productSchema = new mongoose.Schema({
 })
 const Product = conectionMongoose.model('Product', productSchema)
 
-const insertarProducto = async ({titulo, descripcion, precio, stock, codigo}) => {
-    try{
-        const nuevoProducto = new Product({titulo, descripcion, precio, stock, codigo})
+const insertarProducto = async ({ titulo, descripcion, precio, stock, codigo }) => {
+    try {
+        const nuevoProducto = new Product({ titulo, descripcion, precio, stock, codigo })
         await nuevoProducto.save()
         return nuevoProducto._id
     }
-    catch(error){
-        throw {status:500, message: 'Error interno en el servidor'}
+    catch (error) {
+        throw { status: 500, message: 'Error interno en el servidor' }
     }
 }
 
-const seleccionarProductoPorId = async (pid) =>{
-    try{
+const updateProduct = async ({ titulo, descripcion, precio, stock, codigo }) => {
+    try {
+        const productoActualizado = new Product({ titulo, descripcion, precio, stock, codigo })
+        await productoActualizado.save()
+        return productoActualizado._id
+    }
+    catch (error) {
+        throw { status: 500, message: 'Error interno en el servidor' }
+    }
+}
+
+const seleccionarProductoPorId = async (pid) => {
+    try {
         const producto = await Product.findById(pid)
 
-        if(!producto){
-            throw {status: 404, message: 'Producto con id ' + pid + ' no encontrado'}
+        if (!producto) {
+            throw { status: 404, message: 'Producto con id ' + pid + ' no encontrado' }
         }
-        else{
+        else {
             return producto
         }
-        
-    }
-    catch(error){
 
-        if(error.status === 404){
+    }
+    catch (error) {
+
+        if (error.status === 404) {
             throw error
         }
-        else{
-            throw {status:500, message: 'Error interno en el servidor'}
+        else {
+            throw { status: 500, message: 'Error interno en el servidor' }
         }
-        
+
     }
 }
 
-const deleteProductoPorId = async(pid) =>{
-    try{
+const deleteProductoPorId = async (pid) => {
+    try {
         const resultado = await Product.findByIdAndDelete(pid)
-        if(!resultado){
-            throw {status: 404, message: 'Producto con id ' + pid + ' no existe'}
+        if (!resultado) {
+            throw { status: 404, message: 'Producto con id ' + pid + ' no existe' }
         }
-        return {status: 200, message: 'Producto con id ' + pid + ' eliminado correctamente'}   
+        return { status: 200, message: 'Producto con id ' + pid + ' eliminado correctamente' }
     }
-    catch(error){
-        
-        if(error.status === 404){
+    catch (error) {
+
+        if (error.status === 404) {
             throw error
         }
-        else{ 
-            throw {status:500, message: 'Error interno en el servidor'}           
-        }      
+        else {
+            throw { status: 500, message: 'Error interno en el servidor' }
+        }
     }
 }
 
-const seleccionarProductos = async () =>{
-    try{
+const seleccionarProductos = async () => {
+    try {
         const productos = await Product.find({})
         return productos
     }
-    catch(error){
-        if(error.status){
+    catch (error) {
+        if (error.status) {
             throw error
         }
-        else{
-            throw {status:500, message: 'Error interno en el servidor'}
+        else {
+            throw { status: 500, message: 'Error interno en el servidor' }
         }
     }
 }
 
 
-module.exports = { insertarProducto, seleccionarProductoPorId, deleteProductoPorId, seleccionarProductos}
+module.exports = { updateProduct, insertarProducto, seleccionarProductoPorId, deleteProductoPorId, seleccionarProductos }

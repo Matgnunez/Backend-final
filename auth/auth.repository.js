@@ -1,9 +1,9 @@
-const {conectionMongoose} = require('../config/connection.mongodb')
+const { conectionMongoose } = require('../config/connection.mongodb')
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
     email: {
-        type: String, 
+        type: String,
         required: true,
         unique: true
     },
@@ -16,38 +16,38 @@ const userSchema = new mongoose.Schema({
 const User = conectionMongoose.model('User', userSchema)
 
 
-const buscarUsuarioPorEmail = async (email) =>{
-     
+const buscarUsuarioPorEmail = async (email) => {
+
     try {
-        const usuario = await User.findOne({email: email})
-        if(!usuario){
+        const usuario = await User.findOne({ email: email })
+        if (!usuario) {
             return null
         }
         return usuario
     }
     catch (error) {
         console.error('MONGODB_Error al seleccionar usuarios por email', error)
-        throw {status: 500, message: 'Error interno en el servidor'}
+        throw { status: 500, message: 'Error interno en el servidor' }
     }
 }
 
 
-const insertarUsuario = async (usuario) =>{
-    try{
+const insertarUsuario = async (usuario) => {
+    try {
         const nuevoUsuario = new User(usuario)
         await nuevoUsuario.save()
         return true
     }
-    catch(error){
-        
-        throw {status: 500, message: 'Error interno en el servidor'}
+    catch (error) {
+
+        throw { status: 500, message: 'Error interno en el servidor' }
     }
 }
 
 
 
 
-module.exports = {buscarUsuarioPorEmail, insertarUsuario}
+module.exports = { buscarUsuarioPorEmail, insertarUsuario }
 
 
 
